@@ -1,56 +1,33 @@
+/* eslint react/no-did-mount-set-state: 0 */
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
-	render() {
-		return (
+import MoviesList from './MoviesList';
+import MovieDetail from './MovieDetail';
+
+const hello = () => 'hello';
+const store = createStore(hello);
+
+const App = () => (
+	<Provider store={store}>
+		<Router>
 			<div className="App">
 				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h1 className="App-title">Welcome to React</h1>
+					<Link to="/">
+						<img src={logo} className="App-logo" alt="logo" />
+					</Link>
 				</header>
-				<p className="App-intro">
-					To get started, edit <code>src/App.js</code> and save to reload.
-				</p>
+				<Switch>
+					<Route exact path="/" component={MoviesList} />
+					<Route path="/:id" component={MovieDetail} />
+				</Switch>
 			</div>
-		);
-	}
-}
+		</Router>
+	</Provider>
+);
 
 export default App;
-
-const defaultState = {
-	welcome: 'Hi',
-	otherState: 'some stuff',
-	otherStates: 'some other stuff'
-};
-const greeting = (state = defaultState, action) => {
-	switch (action.type) {
-		case 'GREET_ME':
-			return { ...state, welcome: `Hello ${action.name}` };
-		case 'GREET_WORLD':
-			return { ...state, welcome: 'Hello World' };
-		default:
-			return state;
-	}
-};
-const store = createStore(greeting);
-
-console.log(store.getState());
-const name = 'Pedro';
-
-store.dispatch({
-	type: 'GREET_ME',
-	name
-});
-
-console.log(store.getState());
-
-store.dispatch({
-	type: 'GREET_ME',
-	name: 'Wes Bos'
-});
-
-console.log(store.getState());
