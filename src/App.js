@@ -29,7 +29,7 @@ const defaultState = {
 const greeting = (state = defaultState, action) => {
 	switch (action.type) {
 		case 'GREET_ME':
-			return { ...state, welcome: 'Hello Pedro' };
+			return { ...state, welcome: `Hello ${action.name}` };
 		case 'GREET_WORLD':
 			return { ...state, welcome: 'Hello World' };
 		default:
@@ -39,9 +39,18 @@ const greeting = (state = defaultState, action) => {
 const store = createStore(greeting);
 
 console.log(store.getState());
+const name = 'Pedro';
 
 store.dispatch({
-	type: 'GREET_ME'
+	type: 'GREET_ME',
+	name
+});
+
+console.log(store.getState());
+
+store.dispatch({
+	type: 'GREET_ME',
+	name: 'Wes Bos'
 });
 
 console.log(store.getState());
